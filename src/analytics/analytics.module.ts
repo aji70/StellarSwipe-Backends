@@ -15,6 +15,10 @@ import { CorrelationService } from './services/correlation.service';
 import { PriceHistory } from '../prices/entities/price-history.entity';
 import { AssetPair } from '../assets/entities/asset-pair.entity';
 import { TradePatternsModule } from './trade-patterns/trade-patterns.module';
+import { AbTestAnalyzerService } from './ab-testing/ab-test-analyzer.service';
+import { AbTestController } from './ab-testing/ab-test.controller';
+import { ExperimentResult } from './ab-testing/entities/experiment-result.entity';
+import { VariantPerformance } from './ab-testing/entities/variant-performance.entity';
 
 @Module({
   imports: [
@@ -25,11 +29,13 @@ import { TradePatternsModule } from './trade-patterns/trade-patterns.module';
       Signal,
       PriceHistory,
       AssetPair,
+      ExperimentResult,
+      VariantPerformance,
     ]),
     ScheduleModule.forRoot(),
     TradePatternsModule,
   ],
-  controllers: [AnalyticsController],
+  controllers: [AnalyticsController, AbTestController],
   providers: [
     AnalyticsService,
     RiskMetricsService,
@@ -37,13 +43,15 @@ import { TradePatternsModule } from './trade-patterns/trade-patterns.module';
     AttributionService,
     CorrelationService,
     PriceService,
+    AbTestAnalyzerService,
   ],
   exports: [
     AnalyticsService,
     RiskMetricsService,
     AttributionService,
     CorrelationService,
-    StatisticalAnalysisService
+    StatisticalAnalysisService,
+    AbTestAnalyzerService,
   ],
 })
 export class AnalyticsModule {}
